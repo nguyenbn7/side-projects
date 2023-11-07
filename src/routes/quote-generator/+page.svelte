@@ -558,7 +558,7 @@
 
 <script>
 	import { onMount } from 'svelte';
-	import './page.css';
+	import './styles.css';
 
 	/**
 	 * @type {HTMLDivElement}
