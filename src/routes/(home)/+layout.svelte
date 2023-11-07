@@ -4,6 +4,10 @@
 	import Footer from '$lib/home/footer.svelte';
 </script>
 
+<svelte:head>
+	<title>Toy Projects</title>
+</svelte:head>
+
 <Navbar />
 <slot />
 <Footer />
