@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import './styles.css';
+	import { titleBase } from '$lib/constants';
 	// Canvas
 	const { body } = document;
 	const canvas = document.createElement('canvas');
@@ -279,5 +280,5 @@
 </script>
 
 <svelte:head>
-	<title>Pong</title>
+	<title>{titleBase} - Pong</title>
 </svelte:head>

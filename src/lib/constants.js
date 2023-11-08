@@ -1,0 +1,1 @@
+export const titleBase = 'Side Projects';

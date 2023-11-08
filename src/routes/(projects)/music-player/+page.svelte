@@ -1,8 +1,9 @@
 <script>
+	import { titleBase } from '$lib/constants';
     import './styles.css';
 </script>
 <svelte:head>
-	<title>Music Player</title>
+	<title>{titleBase} - Music Player</title>
 	<link
 		rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"

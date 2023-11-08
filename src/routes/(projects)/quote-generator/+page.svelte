@@ -559,6 +559,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import './styles.css';
+	import { titleBase } from '$lib/constants';
 
 	/**
 	 * @type {HTMLDivElement}
@@ -635,7 +636,7 @@
 		rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
 	/>
-	<title>Quote Generator</title>
+	<title>{titleBase} - Quote Generator</title>
 </svelte:head>
 
 <div class="quote-container" id="quote-container" bind:this={quoteContainer}>
