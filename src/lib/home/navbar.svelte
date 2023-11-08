@@ -1,8 +1,8 @@
 <script>
 	/**
-	 * @type {{link: string, name: string, img: string}[]}
+	 * @type {string}
 	 */
-	export let links;
+	export let searchText;
 </script>
 
 <nav class="navbar navbar-expand-lg bg-primary">
@@ -14,9 +14,12 @@
 			<div class="col-9 col-md-6">
 				<input
 					class="form-control me-3"
-					type="search"
+					type="text"
 					placeholder="Search project by name (Enter at least 3 characters)"
 					aria-label="Search"
+					bind:value={searchText}
+					contenteditable="true"
+					maxlength="100"
 				/>
 			</div>
 		</div>

@@ -1,5 +1,17 @@
 <script>
-	import links from '$lib/links';
+	import { getContext } from 'svelte';
+	const searchStore = getContext('searchStore');
+
+	const data = [
+		{ link: 'quote-generator', name: 'Quote Generator', img: 'quote-generator.png' },
+		{ link: 'pong', name: 'Pong', img: 'pong.png' },
+		{ link: 'music-player', name: 'Music Player', img: 'pong.png' },
+		{ link: 'background-generator', name: 'Background Generator', img: 'background-generator.png' }
+	];
+
+	$: searchText = $searchStore;
+	$: newData =
+		searchText.length < 3 ? data : data.filter((d) => d.name.toLowerCase().includes(searchText));
 </script>
 
 <main>
@@ -15,7 +27,7 @@
 	<div class="album py-5 bg-body-tertiary">
 		<div class="container">
 			<div class="row row-cols-md-1 row-cols-lg-2 g-3">
-				{#each links as item}
+				{#each newData as item}
 					<div class="col">
 						<div class="card shadow-sm">
 							<div class="image position-relative">
