@@ -1,7 +1,16 @@
+<script>
+	function topFunction() {
+		// TODO: add smooth to top 
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+	}
+</script>
+
 <footer class="text-body-secondary py-5">
 	<div class="container">
 		<p class="float-end mb-1">
-			<a href="#">Back to top</a>
+			<!-- svelte-ignore a11y-invalid-attribute -->
+			<a href="#" on:click={topFunction}>Back to top</a>
 		</p>
 		<p class="mb-1">
 			Album example is © Bootstrap, but please download and customize it for yourself!
