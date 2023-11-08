@@ -1,8 +1,5 @@
 <script>
-	const data = [
-		{ link: 'quote-generator', name: 'Quote Generator', img: 'quote-generator.png' },
-		{ link: 'pong', name: 'Pong', img: 'pong.png' }
-	];
+	import links from '$lib/links';
 </script>
 
 <main>
@@ -18,7 +15,7 @@
 	<div class="album py-5 bg-body-tertiary">
 		<div class="container">
 			<div class="row row-cols-md-1 row-cols-lg-2 g-3">
-				{#each data as item}
+				{#each links as item}
 					<div class="col">
 						<div class="card shadow-sm">
 							<div class="image position-relative">

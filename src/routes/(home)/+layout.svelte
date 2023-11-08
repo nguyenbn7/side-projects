@@ -1,13 +1,17 @@
 <script>
-	import 'bootstrap/dist/css/bootstrap.min.css';
 	import Navbar from '$lib/home/navbar.svelte';
 	import Footer from '$lib/home/footer.svelte';
+	import links from '$lib/links';
 </script>
 
 <svelte:head>
-	<title>Toy Projects</title>
+	<title>Side Projects</title>
 </svelte:head>
 
-<Navbar />
-<slot />
+<Navbar {links} />
+<slot {links} />
 <Footer />
+
+<style>
+	@import '~bootwatch/dist/darkly/bootstrap.min.css';
+</style>
