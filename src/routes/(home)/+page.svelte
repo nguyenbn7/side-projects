@@ -1,4 +1,5 @@
 <script>
+	import { base } from '$app/paths';
 	import { getContext } from 'svelte';
 	const searchStore = getContext('searchStore');
 
@@ -34,11 +35,11 @@
 					<div class="col">
 						<div class="card shadow-sm">
 							<div class="image position-relative">
-								<img src="/{item.img}" alt={item.name} class="img-fluid" />
+								<img src="{base}/{item.img}" alt={item.name} class="img-fluid" />
 								<div class="d-flex align-items-center justify-content-center hover-overlay">
 									<a
 										class="text-decoration-none text-danger h-100 w-100 d-flex justify-content-center align-items-center"
-										href="/{item.link}"
+										href="{base}/{item.link}"
 										data-sveltekit-reload
 									>
 										<span style="font-size: 3em;" class="fw-bold">{item.name}</span>

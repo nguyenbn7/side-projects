@@ -1,14 +1,6 @@
 <script>
-	import { titleBase } from '$lib/constants';
-    import './styles.css';
+	import './styles.css';
 </script>
-<svelte:head>
-	<title>{titleBase} - Music Player</title>
-	<link
-		rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
-	/>
-</svelte:head>
 
 <div class="player-container">
 	<div class="img-container">

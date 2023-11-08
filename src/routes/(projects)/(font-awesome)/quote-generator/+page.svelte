@@ -631,14 +631,6 @@
 	}
 </script>
 
-<svelte:head>
-	<link
-		rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
-	/>
-	<title>{titleBase} - Quote Generator</title>
-</svelte:head>
-
 <div class="quote-container" id="quote-container" bind:this={quoteContainer}>
 	<!-- Quote -->
 	<div class="quote-text">

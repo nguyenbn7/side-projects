@@ -1,5 +1,4 @@
 <script>
-	import { titleBase } from '$lib/constants';
 	import './styles.css';
 
 	var { body } = document;
@@ -15,11 +14,7 @@
 	setGradient();
 </script>
 
-<svelte:head>
-	<title>{titleBase} - Background Generator</title>
-</svelte:head>
-
-<h1>Background generator</h1>
+<h1>Background Generator</h1>
 <input type="color" name="color1" bind:value={color1} on:input={setGradient} />
 <input type="color" name="color2" bind:value={color2} on:input={setGradient} />
 <h2>Current CSS Background</h2>
