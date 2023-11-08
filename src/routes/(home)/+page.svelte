@@ -18,8 +18,11 @@
 	<section class="py-5 text-center container">
 		<div class="row py-lg-5">
 			<div class="col-lg-6 col-md-8 mx-auto">
-				<h1 class="fw-light">Small Projects</h1>
-				<p class="lead text-body-secondary">Contains 20 small side projects</p>
+				<h1 class="fw-light">Side Projects</h1>
+				<p class="lead text-body-secondary">
+					Minimum and small websites built by HTML5, CSS and JavaScript
+					<span class="fw-bold text-danger">Powered By Svelte</span>
+				</p>
 			</div>
 		</div>
 	</section>
