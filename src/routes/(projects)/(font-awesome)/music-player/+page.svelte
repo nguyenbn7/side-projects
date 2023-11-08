@@ -1,18 +1,132 @@
 <script>
+	import { onMount } from 'svelte';
 	import './styles.css';
+
+	/**
+	 * @type {HTMLAudioElement}
+	 */
+	let music;
+	let isPlaying = false;
+	let playCssClass = 'fa-play';
+	let playBtnTitle = 'Play';
+	/**
+	 * @type {HTMLHeadingElement}
+	 */
+	let title;
+	/**
+	 * @type {HTMLHeadingElement}
+	 */
+	let artist;
+	/**
+	 * @type {HTMLImageElement}
+	 */
+	let image;
+	let songIndex = 0;
+
+	const songs = [
+		{
+			name: 'jacinto-1',
+			displayName: 'Electric Chill Machine',
+			artist: 'Jacinto Design'
+		},
+		{
+			name: 'jacinto-2',
+			displayName: 'Seven Nation Army (Remix)',
+			artist: 'Jacinto Design'
+		},
+		{
+			name: 'jacinto-3',
+			displayName: 'Goodnight, Disco Queen',
+			artist: 'Jacinto Design'
+		},
+		{
+			name: 'metric-1',
+			displayName: 'Front Row (Remix)',
+			artist: 'Metric/Jacinto Design'
+		}
+	];
+
+	function playSong() {
+		isPlaying = true;
+		music.play();
+		playCssClass = 'fa-pause';
+		playBtnTitle = 'Pause';
+	}
+
+	function pauseSong() {
+		isPlaying = false;
+		music.pause();
+		playCssClass = 'fa-play';
+		playBtnTitle = 'Play';
+	}
+
+	/**
+	 * @param {{ displayName: string ; artist: string ; name: string; }} song
+	 */
+	function loadSong(song) {
+		title.textContent = song.displayName;
+		artist.textContent = song.artist;
+		music.src = `music-player/music/${song.name}.mp3`;
+		image.src = `music-player/img/${song.name}.jpg`;
+	}
+
+	function nextSong() {
+		songIndex++;
+		if (songIndex >= songs.length) {
+			songIndex = 0;
+		}
+		loadSong(songs[songIndex]);
+		playSong();
+	}
+
+	function prevSong() {
+		songIndex--;
+		if (songIndex < 0) {
+			songIndex = songs.length - 1;
+		}
+		loadSong(songs[songIndex]);
+		playSong();
+	}
+
+	onMount(() => loadSong(songs[songIndex]));
 </script>
 
 <div class="player-container">
 	<div class="img-container">
-		<img src="music-player/img/jacinto-1.jpg" alt="Album Art" />
+		<img alt="Album Art" bind:this={image} />
 	</div>
-	<h2 id="title">Electric Chill Machine</h2>
-	<h3 id="artist">Jacinto</h3>
-	<audio src="music-player/music/jacinto-1.mp3" controls />
+	<!-- svelte-ignore a11y-missing-content -->
+	<h2 id="title" bind:this={title} />
+	<!-- svelte-ignore a11y-missing-content -->
+	<h3 id="artist" bind:this={artist} />
+	<audio bind:this={music} />
+	<div class="progress-container" id="progress-container">
+		<div class="progress" id="progress">
+			<div class="duration-wrapper">
+				<span id="current-time">0:00</span>
+				<span id="duration">2:06</span>
+			</div>
+		</div>
+	</div>
+	<div class="player-controls">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<i class="fas fa-backward" id="prev" title="Previous" on:click={prevSong} />
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<i
+			class="fas {playCssClass} main-button"
+			id="play"
+			title={playBtnTitle}
+			on:click={() => (isPlaying ? pauseSong() : playSong())}
+		/>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<i class="fas fa-forward" id="next" title="Next" on:click={nextSong} />
+	</div>
 </div>
 
 <style>
-
 	.player-container {
 		height: 500px;
 		width: 400px;
@@ -88,6 +202,12 @@
 		font-size: 30px;
 		color: rgb(129, 129, 129);
 		margin-right: 30px;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.fas:hover {
+		filter: brightness(80%);
 	}
 
 	.main-button {
