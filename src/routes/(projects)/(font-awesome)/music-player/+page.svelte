@@ -21,7 +21,23 @@
 	 * @type {HTMLImageElement}
 	 */
 	let image;
+	/**
+	 * @type {HTMLDivElement}
+	 */
+	let progress;
+	/**
+	 * @type {HTMLDivElement}
+	 */
+	let progressContainer;
 	let songIndex = 0;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let currentTimeEl;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let durationEl;
 
 	const songs = [
 		{
@@ -76,7 +92,9 @@
 			songIndex = 0;
 		}
 		loadSong(songs[songIndex]);
-		playSong();
+		if (isPlaying) {
+			playSong();
+		}
 	}
 
 	function prevSong() {
@@ -85,10 +103,61 @@
 			songIndex = songs.length - 1;
 		}
 		loadSong(songs[songIndex]);
-		playSong();
+		if (isPlaying) {
+			playSong();
+		}
 	}
 
-	onMount(() => loadSong(songs[songIndex]));
+	/**
+	 * @param {Event} $event
+	 */
+	function updateProgressBar($event) {
+		if (isPlaying) {
+			// @ts-ignore
+			const { duration, currentTime } = $event.target;
+			const progressPercent = (currentTime / duration) * 100;
+			progress.style.width = `${progressPercent}%`;
+
+			const currentTimeMins = Math.round(currentTime / 60);
+			const currentTimeSecs = Math.round(currentTime % 60);
+			currentTimeEl.textContent = `${currentTimeMins}:${currentTimeSecs.toLocaleString(undefined, {
+				minimumIntegerDigits: 2,
+				useGrouping: false
+			})}`;
+		}
+	}
+
+	function initDisplay() {
+		const durationMins = Math.round(music.duration / 60);
+		const durationSecs = Math.round(music.duration % 60);
+		durationEl.textContent = `${durationMins}:${durationSecs.toLocaleString(undefined, {
+			minimumIntegerDigits: 2,
+			useGrouping: false
+		})}`;
+		currentTimeEl.textContent = '0:00';
+	}
+
+	/**
+	 * @param {Event} $event
+	 * @this {HTMLDivElement}
+	 */
+	function setProgressBar($event) {
+		const width = this.clientWidth;
+		// @ts-ignore
+		const clickX = $event.offsetX;
+		const { duration } = music;
+		music.currentTime = (clickX / width) * duration;
+	}
+
+	onMount(() => {
+		loadSong(songs[songIndex]);
+		music.preload = 'metadata';
+		music.autoplay = false;
+		music.addEventListener('timeupdate', updateProgressBar);
+		music.addEventListener('loadedmetadata', initDisplay);
+		progressContainer.addEventListener('click', setProgressBar);
+		music.addEventListener("ended", nextSong);	
+	});
 </script>
 
 <div class="player-container">
@@ -100,12 +169,11 @@
 	<!-- svelte-ignore a11y-missing-content -->
 	<h3 id="artist" bind:this={artist} />
 	<audio bind:this={music} />
-	<div class="progress-container" id="progress-container">
-		<div class="progress" id="progress">
-			<div class="duration-wrapper">
-				<span id="current-time">0:00</span>
-				<span id="duration">2:06</span>
-			</div>
+	<div class="progress-container" id="progress-container" bind:this={progressContainer}>
+		<div class="progress" id="progress" bind:this={progress} />
+		<div class="duration-wrapper">
+			<span id="current-time" bind:this={currentTimeEl} />
+			<span id="duration" bind:this={durationEl} />
 		</div>
 	</div>
 	<div class="player-controls">
@@ -179,7 +247,7 @@
 		border-radius: 5px;
 		height: 100%;
 		/* change this to show progress */
-		width: 66%;
+		width: 0%;
 		transition: width 0.1s linear;
 	}
 
