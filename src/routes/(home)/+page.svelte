@@ -30,7 +30,7 @@
 
 	<div class="album py-5 bg-body-tertiary">
 		<div class="container">
-			<div class="row row-cols-md-1 row-cols-lg-2 g-3">
+			<div class="row row-cols-1 row-cols-lg-2 g-3">
 				{#each newData as item}
 					<div class="col">
 						<div class="card shadow-sm">

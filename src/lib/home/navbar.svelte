@@ -5,7 +5,7 @@
 	export let searchText;
 </script>
 
-<nav class="navbar navbar-expand-lg bg-primary">
+<nav class="navbar navbar-expand-lg bg-primary sticky-top">
 	<div class="container-fluid">
 		<div class="row w-100">
 			<div class="col-3 col-md-6">
