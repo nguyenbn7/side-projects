@@ -1,5 +1,5 @@
 <script>
-	import './styles.css';
+	import '$lib/styles/background-generator.css';
 
 	var { body } = document;
 	let color1 = '#00ff00';
@@ -14,8 +14,15 @@
 	setGradient();
 </script>
 
+<svelte:head>
+	<title>Simple websites | Background Generator</title>
+</svelte:head>
+
 <h1>Background Generator</h1>
+
 <input type="color" name="color1" bind:value={color1} on:input={setGradient} />
 <input type="color" name="color2" bind:value={color2} on:input={setGradient} />
+
 <h2>Current CSS Background</h2>
+
 <h3>{cssText}</h3>

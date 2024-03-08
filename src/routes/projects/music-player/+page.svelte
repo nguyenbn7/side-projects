@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import './styles.css';
+	import '$lib/styles/music-player.css';
 
 	/**
 	 * @type {HTMLAudioElement}
@@ -156,9 +156,13 @@
 		music.addEventListener('timeupdate', updateProgressBar);
 		music.addEventListener('loadedmetadata', initDisplay);
 		progressContainer.addEventListener('click', setProgressBar);
-		music.addEventListener("ended", nextSong);	
+		music.addEventListener('ended', nextSong);
 	});
 </script>
+
+<svelte:head>
+	<title>Simple websites | Music Player</title>
+</svelte:head>
 
 <div class="player-container">
 	<div class="img-container">
