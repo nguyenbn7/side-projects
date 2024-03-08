@@ -1,6 +1,6 @@
 {
-	"name": "20-portfolio-projects",
-	"version": "0.0.3",
+	"name": "small-websites",
+	"version": "0.0.4",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
