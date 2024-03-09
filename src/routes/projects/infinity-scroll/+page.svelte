@@ -5,17 +5,50 @@
 	import { PUBLIC_UNSPLASH_API_KEY } from '$env/static/public';
 	import { onMount } from 'svelte';
 
-	const count = 10;
+	const count = 20;
 	const apiKey = PUBLIC_UNSPLASH_API_KEY;
 	const apiURL = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
 
+	/**
+	 * @type {any[]}
+	 */
+	let photos = [];
+	let ready = false;
+	/**
+	 * @type {HTMLDivElement}
+	 */
+	let loaderNode;
+
+	/**
+	 * @param {TimerHandler} handler
+	 * @param {number | undefined} ms
+	 */
+	async function timeout(handler, ms) {
+		return new Promise((_) => setTimeout(handler, ms));
+	}
+
 	async function getPhotos() {
 		try {
+			ready = false;
+			loaderNode.hidden = false;
+
 			const response = await fetch(apiURL);
 			const data = await response.json();
-			console.log(data);
+
+			photos = [...photos, ...data];
 		} catch (error) {
 			console.log(error);
+		} finally {
+			loaderNode.hidden = true;
+			await timeout(() => {
+				ready = true;
+			}, 2000);
+		}
+	}
+
+	async function loadNextImages() {
+		if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready) {
+			await getPhotos();
 		}
 	}
 
@@ -28,28 +61,23 @@
 	<title>{APP_NAME} | Infinity Scroll</title>
 </svelte:head>
 
+<svelte:window on:scroll={loadNextImages} />
+
 <!-- Title -->
 <h1>Unsplash API - Infinite Scroll</h1>
 
 <!-- Loader -->
-<div class="loader" id="loader" hidden>
+<div class="loader" id="loader" bind:this={loaderNode}>
 	<img src={loader} alt="Loading" />
 </div>
 
 <!-- Image container -->
 <div class="image-container" id="image-container">
-	<img
-		src="https://images.unsplash.com/photo-1667236978744-92b4599d0f94?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-		alt=""
-	/>
-	<img
-		src="https://images.unsplash.com/photo-1667236978744-92b4599d0f94?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-		alt=""
-	/>
-	<img
-		src="https://images.unsplash.com/photo-1667236978744-92b4599d0f94?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-		alt=""
-	/>
+	{#each photos as photo}
+		<a href={photo.links.html} target="_blank">
+			<img src={photo.urls.regular} alt={photo.alt_description} title={photo.alt_description} />
+		</a>
+	{/each}
 </div>
 
 <style lang="scss">
