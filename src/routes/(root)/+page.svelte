@@ -14,8 +14,9 @@
 	const data = [
 		{ link: 'quote-generator', name: 'Quote Generator', img: 'quote-generator.png' },
 		{ link: 'pong', name: 'Pong', img: 'pong.png' },
-		{ link: 'music-player', name: 'Music Player', img: 'pong.png' },
-		{ link: 'background-generator', name: 'Background Generator', img: 'background-generator.png' }
+		{ link: 'music-player', name: 'Music Player' },
+		{ link: 'background-generator', name: 'Background Generator', img: 'background-generator.png' },
+		{ link: 'infinity-scroll', name: 'Infinity Scroll' }
 	];
 
 	$: searchText = $searchStore;
@@ -60,11 +61,20 @@
 				{#each newData as item}
 					<div class="col">
 						<div class="card shadow-sm bg-dark-subtle p-0">
-							<img
-								src={imageModules[`${imagePath}/${item.img}`] + ''}
-								alt={item.name}
-								class="bd-placeholder-img card-img-top image"
-							/>
+							{#if item.img}
+								<img
+									src={imageModules[`${imagePath}/${item.img}`] + ''}
+									alt={item.name}
+									class="bd-placeholder-img card-img-top image"
+								/>
+							{:else}
+								<img
+									src={imageModules[`${imagePath}/default.png`] + ''}
+									alt={item.name}
+									class="bd-placeholder-img card-img-top image"
+								/>
+							{/if}
+
 							<div class="card-body">
 								<p class="card-text text-center fw-bold">
 									<a
@@ -83,3 +93,23 @@
 		</div>
 	</div>
 </main>
+
+<style lang="scss">
+	.card-img-top {
+		width: 100%;
+		height: 50vw;
+		object-fit: cover;
+
+		@media screen and (min-width: 992px) {
+			height: 25vw;
+		}
+
+		@media screen and (min-width: 1200px) {
+			height: 23vw;
+		}
+
+		@media screen and (min-width: 1400px) {
+			height: 13vw;
+		}
+	}
+</style>
