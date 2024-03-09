@@ -1,4 +1,5 @@
 <script>
+	import { APP_NAME } from '$lib/js/constants';
 	import '$lib/styles/background-generator.css';
 
 	var { body } = document;
@@ -15,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Simple websites | Background Generator</title>
+	<title>{APP_NAME} | Background Generator</title>
 </svelte:head>
 
 <h1>Background Generator</h1>

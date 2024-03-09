@@ -1,6 +1,22 @@
 <script>
-	import { onMount } from 'svelte';
 	import '$lib/styles/music-player.css';
+
+	import { onMount } from 'svelte';
+	import { APP_NAME } from '$lib/js/constants';
+
+	const imageModules = import.meta.glob('$lib/assets/images/projects/music-player/*.jpg', {
+		eager: true,
+		import: 'default'
+	});
+
+	const imagePath = Object.keys(imageModules)[0].split('/').slice(0, -1).join('/');
+
+	const audioModules = import.meta.glob('$lib/assets/audios/projects/music-player/*.mp3', {
+		eager: true,
+		import: 'default'
+	});
+
+	const audioPath = Object.keys(audioModules)[0].split('/').slice(0, -1).join('/');
 
 	/**
 	 * @type {HTMLAudioElement}
@@ -82,8 +98,10 @@
 	function loadSong(song) {
 		title.textContent = song.displayName;
 		artist.textContent = song.artist;
-		music.src = `music-player/music/${song.name}.mp3`;
-		image.src = `music-player/img/${song.name}.jpg`;
+		// @ts-ignore
+		music.src = audioModules[`${audioPath}/${song.name}.mp3`];
+		// @ts-ignore
+		image.src = imageModules[`${imagePath}/${song.name}.jpg`];
 	}
 
 	function nextSong() {
@@ -161,7 +179,7 @@
 </script>
 
 <svelte:head>
-	<title>Simple websites | Music Player</title>
+	<title>{APP_NAME} | Music Player</title>
 </svelte:head>
 
 <div class="player-container">

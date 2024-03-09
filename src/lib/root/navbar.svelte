@@ -1,4 +1,5 @@
 <script>
+	import logo from '$lib/assets/images/logo.png';
 	/**
 	 * @type {string}
 	 */
@@ -9,7 +10,8 @@
 	<div class="row w-100 align-items-center">
 		<div class="col-3 col-md-6 text-start">
 			<a class="navbar-brand d-flex align-items-center text-white" href="/">
-				<img src="/logo.png" alt="Logo" style="width: 1.75em; height: 1.75em;" class="me-2"/>Simple websites
+				<img src={logo} alt="Logo" style="width: 1.75em; height: 1.75em;" class="me-2" />Simple
+				websites
 			</a>
 		</div>
 		<div class="col-9 col-md-6">

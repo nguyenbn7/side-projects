@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import '$lib/styles/quote-generator.css';
 	import { localQuotes } from '$lib/js/quotes';
+	import { APP_NAME } from '$lib/js/constants';
 
 	/**
 	 * @type {HTMLDivElement}
@@ -24,7 +25,7 @@
 	 */
 	let apiQuotes = [];
 	let isQuoteLong = false;
-	const quotesAPI = 'data/quotes.json';
+	const quotesAPI = '/quotes.json';
 
 	function loading() {
 		loader.hidden = false;
@@ -74,7 +75,7 @@
 </script>
 
 <svelte:head>
-	<title>Simple websites | Quote Generator</title>
+	<title>{APP_NAME} | Quote Generator</title>
 </svelte:head>
 
 <div class="quote-container" id="quote-container" bind:this={quoteContainer}>
@@ -104,8 +105,6 @@
 <div class="loader" id="loader" bind:this={loader} />
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300&display=swap');
-
 	.quote-container {
 		width: auto;
 		max-width: 900px;

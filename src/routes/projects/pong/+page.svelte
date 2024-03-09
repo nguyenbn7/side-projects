@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import '$lib/styles/pong.css';
+	import { APP_NAME } from '$lib/js/constants';
 
 	// Canvas
 	const { body } = document;
@@ -280,5 +281,5 @@
 </script>
 
 <svelte:head>
-	<title>Simple websites | Pong</title>
+	<title>{APP_NAME} | Pong</title>
 </svelte:head>

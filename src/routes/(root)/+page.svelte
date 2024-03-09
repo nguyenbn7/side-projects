@@ -1,7 +1,15 @@
 <script>
 	import { base } from '$app/paths';
+	import { APP_NAME } from '$lib/js/constants';
 	import { getContext } from 'svelte';
 	const searchStore = getContext('searchStore');
+
+	const imageModules = import.meta.glob('$lib/assets/images/root/*.png', {
+		eager: true,
+		import: 'default'
+	});
+
+	const imagePath = Object.keys(imageModules)[0].split('/').slice(0, -1).join('/');
 
 	const data = [
 		{ link: 'quote-generator', name: 'Quote Generator', img: 'quote-generator.png' },
@@ -16,7 +24,7 @@
 </script>
 
 <svelte:head>
-	<title>Simple websites | Home page</title>
+	<title>{APP_NAME} | Home</title>
 </svelte:head>
 
 <main>
@@ -53,7 +61,7 @@
 					<div class="col">
 						<div class="card shadow-sm bg-dark-subtle p-0">
 							<img
-								src="{base}/{item.img}"
+								src={imageModules[`${imagePath}/${item.img}`] + ''}
 								alt={item.name}
 								class="bd-placeholder-img card-img-top image"
 							/>
