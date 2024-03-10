@@ -17,7 +17,7 @@
 		{ link: 'music-player', name: 'Music Player', img: 'music-player.png' },
 		{ link: 'background-generator', name: 'Background Generator', img: 'background-generator.png' },
 		{ link: 'infinity-scroll', name: 'Infinity Scroll', img: 'infinity-scroll.png' },
-		{ link: 'calculator', name: 'Calculator' }
+		{ link: 'calculator', name: 'Calculator', img: 'calculator.png' }
 	];
 
 	$: searchText = $searchStore;
