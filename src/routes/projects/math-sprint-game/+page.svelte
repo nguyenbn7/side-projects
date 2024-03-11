@@ -1,5 +1,6 @@
 <script>
 	import '$lib/styles/math-sprint-game.css';
+	import { onMount } from 'svelte';
 
 	/**
 	 * Get random number up to a max number
@@ -53,27 +54,15 @@
 		return secondTotalAmount;
 	}
 
-	// Pages
-	// const gamePage = document.getElementById('game-page');
-	// const scorePage = document.getElementById('score-page');
-	// const splashPage = document.getElementById('splash-page');
-	// const countdownPage = document.getElementById('countdown-page');
-	// // Splash Page
-	// const startForm = document.getElementById('start-form');
-	// const bestScores = document.querySelectorAll('.best-score-value');
-	// // Countdown Page
-	// const countdown = document.querySelector('.countdown');
-	// // Game Page
-	// const itemContainer = document.querySelector('.item-container');
-	// // Score Page
-	// const finalTimeEl = document.querySelector('.final-time');
-	// const baseTimeEl = document.querySelector('.base-time');
-	// const penaltyTimeEl = document.querySelector('.penalty-time');
-	// const playAgainBtn = document.querySelector('.play-again');
 	let hideSplashPage = false;
 	let hideCountDownPage = true;
 	let hideGamePage = true;
 	let hideScorePage = true;
+	/**
+	 * @type {HTMLDivElement}
+	 */
+	let gamePage;
+	let hidePlayAgainBtn = true;
 
 	/**
 	 * @type {HTMLHeadingElement}
@@ -95,12 +84,60 @@
 	let playerGuessArray = [];
 	let valueY = 0;
 
+	/**
+	 * @type {number | undefined}
+	 */
+	let timer;
+	let timePlayed = 0;
+	let penaltyTime = 0;
+	let finalTime = 0;
+	/**
+	 * @type {{questions: number, bestScore: string}[]}
+	 */
+	let bestScoreArray = [];
+
+	function checkTime() {
+		if (playerGuessArray.length >= questionAmount) {
+			clearInterval(timer);
+			equationsArray.forEach((equation, idx) => {
+				if (equation.evaluated === playerGuessArray[idx]) {
+				} else {
+					penaltyTime += 0.5;
+				}
+			});
+			finalTime = timePlayed + penaltyTime;
+			updateBestScore();
+			hideGamePage = true;
+			hideScorePage = false;
+			setTimeout(() => (hidePlayAgainBtn = false), 1000);
+			itemContainer.scrollTo({ top: 0, behavior: 'instant' });
+		}
+	}
+
+	function addTimer() {
+		timePlayed += 0.1;
+		checkTime();
+	}
+
+	/**
+	 * @param {Event & { currentTarget: EventTarget & HTMLDivElement; }} $event
+	 */
+	// @ts-ignore
+	function startTimer($event) {
+		timePlayed = 0;
+		penaltyTime = 0;
+		finalTime = 0;
+		timer = setInterval(addTimer, 100);
+		// @ts-ignore
+		return $event.currentTarget.removeEventListener('click', startTimer);
+	}
+
 	function showCountDownPage() {
 		hideCountDownPage = false;
 		hideSplashPage = true;
-		startCountDown(3);
+		const timeBeforeGame = startCountDown(3);
 		equationsArray = [...createEquations(questionAmount)];
-		setTimeout(showGamePage, 400);
+		setTimeout(showGamePage, timeBeforeGame);
 	}
 
 	function showGamePage() {
@@ -163,8 +200,52 @@
 		valueY += 80;
 		itemContainer.scroll(0, valueY);
 		playerGuessArray = [...playerGuessArray, guessesTrue ? 'true' : 'false'];
-		console.log(playerGuessArray);
 	}
+
+	function playAgain() {
+		// @ts-ignore
+		gamePage.addEventListener('click', startTimer);
+		hideScorePage = true;
+		hideSplashPage = false;
+		equationsArray = [];
+		playerGuessArray = [];
+		valueY = 0;
+		hidePlayAgainBtn = true;
+	}
+
+	function getSavedBestScores() {
+		const value = localStorage.getItem('bestScores');
+
+		if (value) {
+			bestScoreArray = JSON.parse(value);
+			return;
+		}
+
+		bestScoreArray = [
+			{ questions: 10, bestScore: finalTime.toFixed(1) },
+			{ questions: 25, bestScore: finalTime.toFixed(1) },
+			{ questions: 50, bestScore: finalTime.toFixed(1) },
+			{ questions: 99, bestScore: finalTime.toFixed(1) }
+		];
+
+		localStorage.setItem('bestScores', JSON.stringify(bestScoreArray));
+	}
+
+	function updateBestScore() {
+		bestScoreArray.forEach((score, idx) => {
+			if (score.questions === questionAmount) {
+				const savedBestScore = Number(bestScoreArray[idx].bestScore);
+				if (savedBestScore === 0 || savedBestScore > finalTime) {
+					bestScoreArray[idx].bestScore = finalTime.toFixed(1);
+				}
+			}
+		});
+		localStorage.setItem('bestScores', JSON.stringify(bestScoreArray));
+	}
+
+	onMount(() => {
+		getSavedBestScores();
+	});
 </script>
 
 <div class="game-container">
@@ -175,13 +256,13 @@
 	<div class="card" hidden={hideSplashPage}>
 		<form id="start-form" on:submit|preventDefault={showCountDownPage}>
 			<div class="selection-container">
-				{#each [10, 25, 50, 99] as noQuestions}
+				{#each [10, 25, 50, 99] as noQuestions, idx}
 					<div class="radio-container" class:selected-label={questionAmount === noQuestions}>
 						<label for="value-{noQuestions}">{noQuestions} Questions</label>
 						<input type="radio" name="questions" value={noQuestions} bind:group={questionAmount} />
 						<span class="best-score">
 							<span>Best Score</span>
-							<span class="best-score-value">0.0s</span>
+							<span class="best-score-value">{bestScoreArray[idx]?.bestScore}s</span>
 						</span>
 					</div>
 				{/each}
@@ -196,7 +277,9 @@
 		<h1 class="countdown" bind:this={countdown}>{''}</h1>
 	</div>
 
-	<div class="card" id="game-page" hidden={hideGamePage}>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div class="card" hidden={hideGamePage} on:click={startTimer} bind:this={gamePage}>
 		<div class="item-container" bind:this={itemContainer}>
 			<div class="height-240"></div>
 			<div class="selected-item"></div>
@@ -216,12 +299,12 @@
 	<div class="card" hidden={hideScorePage}>
 		<div class="score-container">
 			<h1 class="title">Your Time</h1>
-			<h1 class="final-time">3.4s</h1>
-			<h1 class="base-time">Base Time: 2.4s</h1>
-			<h1 class="penalty-time">Penalty: +1.0s</h1>
+			<h1 class="final-time">{finalTime.toFixed(1)}s</h1>
+			<h1 class="base-time">Base Time: {timePlayed.toFixed(1)}s</h1>
+			<h1 class="penalty-time">Penalty: +{penaltyTime.toFixed(1)}s</h1>
 		</div>
 		<div class="score-footer">
-			<button class="play-again">Play Again</button>
+			<button class="play-again" on:click={playAgain} hidden={hidePlayAgainBtn}>Play Again</button>
 		</div>
 	</div>
 </div>

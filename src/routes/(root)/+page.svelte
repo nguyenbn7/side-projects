@@ -18,7 +18,7 @@
 		{ link: 'background-generator', name: 'Background Generator', img: 'background-generator.png' },
 		{ link: 'infinity-scroll', name: 'Infinity Scroll', img: 'infinity-scroll.png' },
 		{ link: 'calculator', name: 'Calculator', img: 'calculator.png' },
-		{ link: 'math-sprint-game', name: 'Math Sprint Game' }
+		{ link: 'math-sprint-game', name: 'Math Sprint Game', img: 'math-sprint-game.png' }
 	];
 
 	$: searchText = $searchStore;
