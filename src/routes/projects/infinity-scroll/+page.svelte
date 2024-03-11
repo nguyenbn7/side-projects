@@ -1,7 +1,6 @@
 <script>
 	import loader from '$lib/assets/images/projects/infinity-scroll/loader.svg';
 	import '$lib/styles/infinity-scroll.css';
-	import { APP_NAME } from '$lib/js/constants';
 	import { PUBLIC_UNSPLASH_API_KEY } from '$env/static/public';
 	import { onMount } from 'svelte';
 
@@ -56,10 +55,6 @@
 		await getPhotos();
 	});
 </script>
-
-<svelte:head>
-	<title>{APP_NAME} | Infinity Scroll</title>
-</svelte:head>
 
 <svelte:window on:scroll={loadNextImages} />
 

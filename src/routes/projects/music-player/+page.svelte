@@ -178,10 +178,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{APP_NAME} | Music Player</title>
-</svelte:head>
-
 <div class="player-container">
 	<div class="img-container">
 		<img alt="Album Art" bind:this={image} />

@@ -279,7 +279,3 @@
 	// On Load
 	onMount(startGame);
 </script>
-
-<svelte:head>
-	<title>{APP_NAME} | Pong</title>
-</svelte:head>

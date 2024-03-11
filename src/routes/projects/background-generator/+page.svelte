@@ -1,8 +1,8 @@
 <script>
-	import { APP_NAME } from '$lib/js/constants';
 	import '$lib/styles/background-generator.css';
+	import { onMount } from 'svelte';
 
-	var { body } = document;
+	const { body } = document;
 	let color1 = '#00ff00';
 	let color2 = '#ff0000';
 	let cssText = '';
@@ -12,12 +12,9 @@
 
 		cssText = body.style.background + ';';
 	}
+
 	setGradient();
 </script>
-
-<svelte:head>
-	<title>{APP_NAME} | Background Generator</title>
-</svelte:head>
 
 <h1>Background Generator</h1>
 

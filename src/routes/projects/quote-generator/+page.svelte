@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import '$lib/styles/quote-generator.css';
 	import { localQuotes } from '$lib/js/quotes';
-	import { APP_NAME } from '$lib/js/constants';
 
 	/**
 	 * @type {HTMLDivElement}
@@ -73,10 +72,6 @@
 		window.open(twitterUrl, '_blank');
 	}
 </script>
-
-<svelte:head>
-	<title>{APP_NAME} | Quote Generator</title>
-</svelte:head>
 
 <div class="quote-container" id="quote-container" bind:this={quoteContainer}>
 	<!-- Quote -->
