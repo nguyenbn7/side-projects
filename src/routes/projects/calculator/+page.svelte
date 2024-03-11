@@ -122,6 +122,14 @@
 </div>
 
 <style lang="text/scss">
+
+	.text-white {
+		color: white;
+	}
+
+	.mb-5 {
+		margin-bottom: 1.25em;
+	}
 	.calculator {
 		background: white;
 		width: 400px;

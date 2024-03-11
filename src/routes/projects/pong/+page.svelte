@@ -1,8 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import '$lib/styles/pong.css';
-	import { APP_NAME } from '$lib/js/constants';
-
+	
 	// Canvas
 	const { body } = document;
 	const canvas = document.createElement('canvas');

@@ -1,4 +1,5 @@
 <script>
+	import 'bootstrap/dist/css/bootstrap.min.css';
 	import '$lib/styles/root-layout.css';
 
 	import Navbar from '$lib/root/navbar.svelte';
